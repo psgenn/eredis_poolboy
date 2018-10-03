@@ -1,11 +1,13 @@
 {application, eredis_poolboy,
  [{description, "An OTP application"},
-  {vsn, "0.1.0"},
+  {vsn, git},
   {registered, []},
-  {mod, { eredis_poolboy_app, []}},
+  {mod, {eredis_poolboy_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    eredis,
+    poolboy
    ]},
   {env,[]},
   {modules, []},

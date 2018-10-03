@@ -1,5 +1,7 @@
 %%%-------------------------------------------------------------------
-%% @doc eredis_poolboy public API
+%% @doc
+%% This file is part of eredis + poolboy.
+%% eredis_poolboy public API
 %% @end
 %%%-------------------------------------------------------------------
 
@@ -8,7 +10,10 @@
 -behaviour(application).
 
 %% Application callbacks
--export([start/2, stop/1]).
+-export([
+  start/2,
+  stop/1
+]).
 
 %%====================================================================
 %% API
@@ -19,7 +24,3 @@ start(_StartType, _StartArgs) ->
 
 stop(_State) ->
   ok.
-
-%%====================================================================
-%% Internal functions
-%%====================================================================
