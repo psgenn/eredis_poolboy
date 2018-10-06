@@ -10,7 +10,9 @@
 -export([
   add_pool/3,
   q/2,
-  q/3
+  q/3,
+  qp/2,
+  qp/3
 ]).
 
 -include_lib("eredis/include/eredis.hrl").
@@ -39,5 +41,24 @@ q(PoolName, Command) ->
 q(PoolName, Command, Timeout) ->
   Func = fun(Worker) ->
     eredis:q(Worker, Command, Timeout)
-         end,
+  end,
+  poolboy:transaction(PoolName, Func).
+
+-spec qp(PoolName :: atom(), Command :: [any()]) ->
+  {ok, return_value()} | {error, Reason :: binary() | no_connection}.
+qp(PoolName, Command) ->
+  Func = fun(Worker) ->
+    eredis:qp(Worker, Command)
+  end,
+  poolboy:transaction(PoolName, Func).
+
+-spec qp(PoolName, Command, Timeout) ->
+  {ok, return_value()} | {error, Reason :: binary() | no_connection} when
+  PoolName :: atom(),
+  Command  :: [any()],
+  Timeout  :: non_neg_integer() | infinity.
+qp(PoolName, Command, Timeout) ->
+  Func = fun(Worker) ->
+    eredis:qp(Worker, Command, Timeout)
+  end,
   poolboy:transaction(PoolName, Func).
