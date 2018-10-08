@@ -30,6 +30,9 @@
 start_link() ->
   supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
+%% @doc
+%% Add new pool connections.
+%% @end
 -spec add_pool(PoolName, PoolSize, Option) -> supervisor:startchild_ret() when
   PoolName :: atom(),
   PoolSize :: proplists:proplist(),

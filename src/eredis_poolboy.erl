@@ -17,6 +17,9 @@
 
 -include_lib("eredis/include/eredis.hrl").
 
+%% @doc
+%% Add new pool connections.
+%% @end
 -spec add_pool(PoolName, PoolSize, Option) -> {ok, pid} | {error, Reason} when
   PoolName :: atom(),
   PoolSize :: proplists:proplist(),
@@ -25,6 +28,9 @@
 add_pool(PoolName, PoolSize, Option) ->
   eredis_poolboy_sup:add_pool(PoolName, PoolSize, Option).
 
+%% @doc
+%% Executes the given command. The command must be a valid Redis command.
+%% @end
 -spec q(PoolName :: atom(), Command :: [any()]) ->
   {ok, return_value()} | {error, Reason :: binary() | no_connection}.
 q(PoolName, Command) ->
@@ -44,6 +50,10 @@ q(PoolName, Command, Timeout) ->
   end,
   poolboy:transaction(PoolName, Func).
 
+%% @doc
+%% Executes the given pipeline (list of commands) in the
+%% specified connection. The commands must be valid Redis commands.
+%% @end
 -spec qp(PoolName :: atom(), Command :: [any()]) ->
   {ok, return_value()} | {error, Reason :: binary() | no_connection}.
 qp(PoolName, Command) ->
