@@ -12,7 +12,8 @@
   q/2,
   q/3,
   qp/2,
-  qp/3
+  qp/3,
+  q_noreply/2
 ]).
 
 -include_lib("eredis/include/eredis.hrl").
@@ -70,5 +71,15 @@ qp(PoolName, Command) ->
 qp(PoolName, Command, Timeout) ->
   Func = fun(Worker) ->
     eredis:qp(Worker, Command, Timeout)
+  end,
+  poolboy:transaction(PoolName, Func).
+
+%% @doc
+%% Executes the command but does not wait for a response and ignores any errors.
+%% @end
+-spec q_noreply(PoolName :: atom(), Command :: [any()]) -> ok.
+q_noreply(PoolName, Command) ->
+  Func = fun(Worker) ->
+    eredis:q_noreply(Worker, Command)
   end,
   poolboy:transaction(PoolName, Func).
